@@ -48,10 +48,10 @@ pipeline {
     stage('Testing image') {
       steps {
         sh '''
-          podman run -t --rm --security-opt label=disable --image-volume ignore --entrypoint \'["ansible","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run -t --rm --security-opt label=disable --image-volume ignore --entrypoint \'["ansible-playbook","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run -t --rm --security-opt label=disable --image-volume ignore --entrypoint \'["ansible-galaxy","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run -t --rm --security-opt label=disable --image-volume ignore --entrypoint \'["ansible-vault","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+          podman run -t --rm --image-volume ignore --entrypoint \'["ansible","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+          podman run -t --rm --image-volume ignore --entrypoint \'["ansible-playbook","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+          podman run -t --rm --image-volume ignore --entrypoint \'["ansible-galaxy","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+          podman run -t --rm --image-volume ignore --entrypoint \'["ansible-vault","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
          '''
       }
     }
