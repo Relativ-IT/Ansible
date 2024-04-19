@@ -41,7 +41,7 @@ pipeline {
 
     stage('Building image') {
       steps {
-        sh 'podman build --network slirp4netns --pull -t $REGISTRY_LOCAL/$FULLIMAGE .'
+        sh 'podman build --pull -t $REGISTRY_LOCAL/$FULLIMAGE .'
       }
     }
 
