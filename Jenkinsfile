@@ -41,7 +41,7 @@ pipeline {
 
     stage('Building image') {
       steps {
-        sh 'Buildah build --pull -t $REGISTRY_LOCAL/$FULLIMAGE .'
+        sh 'buildah build --pull -t $REGISTRY_LOCAL/$FULLIMAGE .'
       }
     }
 
@@ -58,7 +58,7 @@ pipeline {
 
     stage('Pushing image') {
       steps {
-        sh 'Buildah push $REGISTRY_LOCAL/$FULLIMAGE'
+        sh 'buildah push $REGISTRY_LOCAL/$FULLIMAGE'
       }
     }
   }
