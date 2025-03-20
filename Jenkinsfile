@@ -4,7 +4,7 @@ pipeline {
   }
 
   agent {
-    label 'Linux && Podman'
+    label 'Linux && Buildah'
   }
 
   environment{
@@ -28,37 +28,37 @@ pipeline {
           }
         }
 
-        stage('Print Podman infos') {
-          steps {
-            sh '''
-              podman version
-              podman system info
-            '''
-          }
-        }
+        // stage('Print Podman infos') {
+        //   steps {
+        //     sh '''
+        //       podman version
+        //       podman system info
+        //     '''
+        //   }
+        // }
       }
     }
 
     stage('Building image') {
       steps {
-        sh 'podman build --pull --network slirp4netns -t $REGISTRY_LOCAL/$FULLIMAGE .'
+        sh 'Buildah build --pull -t $REGISTRY_LOCAL/$FULLIMAGE .'
       }
     }
 
-    stage('Testing image') {
-      steps {
-        sh '''
-          podman run --rm --image-volume ignore --entrypoint \'["ansible","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run --rm --image-volume ignore --entrypoint \'["ansible-playbook","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run --rm --image-volume ignore --entrypoint \'["ansible-galaxy","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-          podman run --rm --image-volume ignore --entrypoint \'["ansible-vault","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
-         '''
-      }
-    }
+    // stage('Testing image') {
+    //   steps {
+    //     sh '''
+    //       Buildah run --rm --image-volume ignore --entrypoint \'["ansible","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+    //       Buildah run --rm --image-volume ignore --entrypoint \'["ansible-playbook","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+    //       Buildah run --rm --image-volume ignore --entrypoint \'["ansible-galaxy","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+    //       Buildah run --rm --image-volume ignore --entrypoint \'["ansible-vault","--version"]\' $REGISTRY_LOCAL/$FULLIMAGE
+    //      '''
+    //   }
+    // }
 
     stage('Pushing image') {
       steps {
-        sh 'podman push $REGISTRY_LOCAL/$FULLIMAGE'
+        sh 'Buildah push $REGISTRY_LOCAL/$FULLIMAGE'
       }
     }
   }
