@@ -28,14 +28,14 @@ pipeline {
           }
         }
 
-        // stage('Print Podman infos') {
-        //   steps {
-        //     sh '''
-        //       podman version
-        //       podman system info
-        //     '''
-        //   }
-        // }
+        stage('Print Buildah infos') {
+          steps {
+            sh '''
+              buildah version
+              buildah info
+            '''
+          }
+        }
       }
     }
 
